@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+	<typeAlias alias="user" type="com.crelic.model.UserBean" />
+	<typeAlias alias="collect" type="com.crelic.model.CollectBean" />
+	<typeAlias alias="biaoyin" type="com.crelic.model.Biaoyin" />
+	
+	<!-- 根据用户是否存在-->
+	<select id="checkUser" parameterClass="user"
+		resultClass="Integer">
+		select count(*) from user where userName = #userName# and password = #password# limit 1 
+	</select>
+
+	<!-- 收藏文物 -->
+	<insert id="collectCul" parameterClass="collect">
+		insert into collect (userid,culid,cultype,time,biaoyin) values(#userid#,#culid#,#cultype#,#time#,#biaoyin#)
+		<selectKey resultClass="String" keyProperty="id">  
+  		 	 SELECT @@IDENTITY as id  
+ 		 </selectKey> 
+	</insert>
+
+	<!--取消收藏文物 -->
+	<update id="delCollect" parameterClass="collect">
+		delete from collect where userid=#userid# and culid=#culid#
+	</update>
+	
+	<!--判断用户是否收藏某个文物 -->
+	<select id="checkCollect" parameterClass="collect"
+		resultClass="Integer">
+		select count(*) from collect where userid=#userid# and culid=#culid#
+	</select>
+	
+	<!-- 添加用户对文物的标引 -->
+	<update id="saveBy" parameterClass="collect">
+		update collect set biaoyin=#biaoyin# where userid=#userid# and culid=#culid#
+	</update>
+	
+	<!-- 批量插入标引 -->
+	<insert id="addBatchBy" parameterClass="java.util.List">
+		<![CDATA[  
+        insert into biaoyin (userid,biaoyin) values  
+    	]]> 
+    	<iterate conjunction=",">   
+        	<![CDATA[  
+            (#bylist[].userid#, #bylist[].biaoyin#)
+        	]]>   
+    	</iterate>  
+	</insert>
+	
+	<!-- 获取用户的所有标引 -->
+	<select id="getByList" parameterClass="String"
+		resultClass="String">
+		select distinct biaoyin from biaoyin where userid = #userid#
+	</select>
+	
+	<!-- 根据用户名字返回用户id -->
+	<select id="getIdByName" parameterClass="String"
+		resultClass="String">
+		select userId from user where userName = #userName#
+	</select>
+	
+
+</sqlMap>  

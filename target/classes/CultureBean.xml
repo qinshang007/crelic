@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+	<typeAlias alias="culturalBean" type="com.crelic.model.CulturalBean" />
+	<typeAlias alias="collect" type="com.crelic.model.CollectBean" />
+	<typeAlias alias="biaoyin" type="com.crelic.model.Biaoyin" />
+	<typeAlias alias="file" type="com.crelic.model.UploadFile" />
+
+<!-- 
+	<resultMap id="cbMap" class="culturalBean">
+		<result property="identifier" column="identifier"/>
+		<result property="title" column="title"/>
+		<result property="level" column="c_level"/>
+		<result property="creation_date" column="creation_date"/>
+		<result property="place_of_origin" column="place_of_origin"/>
+		<result property="creator" column="creator"/>
+		<result property="measurement" column="measurement"/>
+		<result property="excavation_date" column="excavation_date"/>
+		<result property="excavation_place" column="excavation_place"/>
+		<result property="current_location" column="current_location"/>
+		<result property="exhibition_history" column="exhibition_history"/>
+		<result property="location" column="location"/>
+		<result property="shape" column="shape"/>
+		<result property="pattern" column="pattern"/>
+		<result property="color" column="color"/>
+		<result property="structure" column="structure"/>
+		<result property="decoration" column="decoration"/>
+		<result property="scene" column="scene"/>
+		<result property="usage" column="c_usage"/>
+		<result property="symbolic_meaning" column="symbolic_meaning"/>
+		<result property="aesthetic_description" column="aesthetic_desc"/>
+		<result property="social_history_info" column="social_history_info"/>
+		<result property="material" column="material"/>
+		<result property="technique" column="technique"/>
+		<result property="history_information" column="history_info"/>
+		<result property="folklore" column="folklore"/>
+		<result property="relation" column="relation"/>
+		<result property="source" column="source"/>
+		<result property="rights" column="rights"/>
+		<result property="manager" column="manager"/>
+		<result property="type" column="type"/>
+		<result property="mainpic" column="mainpic"/>
+		<result property="classification" column="classification"/>
+	</resultMap>
+
+ -->	
+	
+	<!-- 返回五个检索最多的文物 -->
+	<select id="getHotSearch" 
+		resultClass="culturalBean">
+		select identifier,title,shape,mainpic from culture order by sernum desc limit 5 
+	</select>
+
+	<!-- 返回最近更新的五件文物 -->
+	<select id="getLatestCul" 
+		resultClass="culturalBean">
+		select identifier,title,mainpic from culture order by crtime desc limit 5 
+	</select>
+
+	<!-- 返回返回推荐的五件文物.label=0,完全随机推荐;label=1，根据大类推荐;label=2,根据小类推荐 -->
+	<select id="getRecommCul" parameterClass="java.util.HashMap"
+		resultClass="culturalBean">
+		select  identifier,title,mainpic from culture
+	   	<isEqual prepend="where" property="label" compareValue="1"> 
+               type = #type#
+        </isEqual> 
+ 	   	<isEqual prepend="where" property="label" compareValue="2"> 
+               classification = #type#
+        </isEqual> 
+         <dynamic prepend=""> 
+         	  order by rand() limit 4 
+         </dynamic>
+	</select>
+
+
+	<!-- 返回文物详情-->
+	<select id="getCultural" parameterClass="String" 
+		resultClass="culturalBean">
+		select * from culture where identifier = #culId#
+	</select>
+
+	<!-- 返回文物图片 -->
+	<select id="getCulturalPic" parameterClass="String"
+		resultClass="file">
+		select * from uploadfile where filetype = 'ew' and identifier = #culId#
+	</select>
+
+	<!--根据类别返回查询的所有文素-->
+	<select id="getCulByType" parameterClass="java.util.HashMap"
+		resultClass="culturalBean">
+		select identifier,title,mainpic from culture where classification = #classification#
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+		   <isNotNull property="_start"> 
+                <isNotNull property="_size"> 
+                      order by sernum desc limit #_start#, #_size# 
+                </isNotNull> 
+           </isNotNull> 
+		</dynamic>
+	</select>
+
+	<!--根据搜索的关键词返回所查询的文物-->
+	<select id="search" parameterClass="java.util.HashMap"
+		resultClass="culturalBean">
+		select identifier,title,mainpic from culture where concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keyword$%'
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+		   <isNotNull property="_start"> 
+                <isNotNull property="_size"> 
+                      order by sernum desc limit #_start#, #_size# 
+                </isNotNull> 
+           </isNotNull> 
+		</dynamic>
+	</select>
+
+	<!--根据用户id，返回他收藏的文物-->
+	<select id="getCulByUserId" parameterClass="java.util.HashMap"
+		resultClass="culturalBean">
+			select  a.identifier,title,mainpic from culture as a inner join collect as b on a.identifier=b.culid  and b.userid=#userid#
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="biaoyin">
+				 biaoyin like '%$biaoyin$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+		   <isNotNull property="_start"> 
+                <isNotNull property="_size"> 
+                      limit #_start#, #_size# 
+                </isNotNull> 
+           </isNotNull> 
+		</dynamic>
+	</select>
+
+	
+	<!--返回某分类下所有素材的总数 -->
+	<select id="getRowCountByType" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(*) from culture  where classification = #classification#
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!--根据查询关键字返回所有素材的总数-->
+	<select id="getRowCountBySer" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(*) from culture  where concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keyword$%'
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!--根据用户的收藏返回所有素材的总数 -->
+	<select id="getRowCountByUserId" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(0) from culture as a inner join collect as b on a.identifier = b.culid and b.userid=#userid#
+		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="time">
+				 creation_date like '%$time$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				 color like '%$color$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="biaoyin">
+				 biaoyin like '%$biaoyin$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+</sqlMap>  
