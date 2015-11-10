@@ -73,8 +73,8 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		{
 			$("#shapeDiv").hide();
 			$("#funcDiv").hide();
-			$("#skillDiv").hide();
-			$("#historyDiv").hide();
+			$("#techonologyDiv").hide();
+			$("#cultureDiv").hide();
 			
 			var showDiv = name+"Div";
 			$("#"+showDiv).show();
@@ -169,6 +169,57 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 			 }
 		 }
 		 
+		function display(){
+			var type = $("#type").val();
+			if(type=='器物'){
+				//基本信息
+				$("#locationDiv").hide();
+				//造型要素
+				$("#structureDiv").hide();
+				$("#decorationDiv").hide();
+				//文化要素
+				$("#socialHistoryInfoDiv").hide();
+			}else if(type=='织物'){
+				//基本要素
+				$("#locationDiv").hide();
+				//造型要素
+				$("#shapeDiv2").hide();
+				$("#structureDiv").hide();
+				$("#decorationDiv").hide();
+				//功能要素
+				$("#c_usageDiv").hide();
+				//文化要素
+				$("#socialHistoryInfoDiv").hide();
+			}else if(type='建筑'){
+				//基本信息
+				$("#placeOfOriginDiv").hide();
+				$("#excavationDateDiv").hide();
+				$("#excavationPlaceDiv").hide();
+				$("#currentLocationDiv").hide();
+				$("#exhibitonHistoryDiv").hide();
+				//造型要素
+				$("#shapeDiv2").hide();
+				$("#patternDiv").hide();
+				//功能要素
+				$("#functionDiv").hide();
+				//文化要素
+				$("#historyInfoDiv").hide();
+				$("#folkloreDiv").hide();
+			}else if(type=='壁画'){
+				//基本信息
+				$("#locationDiv").hide();
+				//造型要素
+				$("#shapeDiv2").hide();
+				$("#structureDiv").hide();
+				$("#decorationDiv").hide();
+				//功能要素
+				$("#sceneDiv").hide();
+				$("#c_usageDiv").hide();
+				//文化要素
+				$("#socialHistoryInfoDiv").hide();
+			}
+		}
+		 
 		function init()
 		{
 			var isCollect='${isCollect}';
@@ -177,6 +228,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 				$("#collect").hide();
 				$("#delcollect").show();
 			}
+			display();
 		}
 		
 	</script>
@@ -229,6 +281,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
    		</div>
    		<div class="right">
    			<div class="up">
+   				<input type="hidden" id="type" name="type" value='<%=cb.getType() %>' />
 	   			<div class="rtitle"><span>名称：&nbsp;<%=cb.getTitle() %></span></div>
 		   		<div class="picinfo">
 			   		<div id=preview>
@@ -282,36 +335,52 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 				<div class="wordinfo">
 					<table>
 					  <tr>
-					    <td class="tdpro1">类型：</td>
-					    <td class="tdval1"><%=cb.getClassification() %></td>
+					    <td class="tdpro1">其他名称：</td>
+					    <td class="tdval1"><%=cb.getUsed_title() %></td>
 					  </tr>
 					  <tr>
 					    <td class="tdpro1">级别：</td>
 					    <td class="tdval1"><%=cb.getC_level() %></td>
 					  </tr>
 					  <tr>
-					    <td class="tdpro1">创作年代：</td>
+					    <td class="tdpro1">创作朝代：</td>
 					    <td class="tdval1"><%=cb.getCreation_date() %></td>
 					  </tr>
 					  <tr>
-					    <td class="tdpro1">产地：</td>
-					    <td class="tdval1"><%=cb.getPlace_of_origin() %></td>
+					    <td class="tdpro1">创作时期：</td>
+					    <td class="tdval1"><%=cb.getCreation_time() %></td>
 					  </tr>
 					  <tr>
 					    <td class="tdpro1">创作者：</td>
 					    <td class="tdval1"><%=cb.getCreator() %></td>
 					  </tr>
-					  <tr>
-					    <td class="tdpro1">出土时间：</td>
-					    <td class="tdval1"><%=cb.getExcavation_date() %></td>
-					  </tr>
-					  <tr>
-					    <td class="tdpro1">出土地点：</td>
-					    <td class="tdval1"><%=cb.getExcavation_place() %></td>
+					  <tr id="placeOfOriginDiv">
+					    <td class="tdpro1">产地：</td>
+					    <td class="tdval1"><%=cb.getPlace_of_origin() %></td>
 					  </tr>
 					  <tr>
 					    <td class="tdpro1">度量：</td>
 					    <td class="tdval1"><%=cb.getMeasurement() %></td>
+					  </tr>
+					  <tr id="locationDiv">
+					    <td class="tdpro1">地域环境：</td>
+					    <td class="tdval1"><%=cb.getLocation() %></td>
+					  </tr>
+					  <tr id="excavationDateDiv">
+					    <td class="tdpro1">出土时间：</td>
+					    <td class="tdval1"><%=cb.getExcavation_date() %></td>
+					  </tr>
+					  <tr id="excavationPlaceDiv">
+					    <td class="tdpro1">出土地点：</td>
+					    <td class="tdval1"><%=cb.getExcavation_place() %></td>
+					  </tr>
+					  <tr id="currentLocationDiv">
+					    <td class="tdpro1">现藏地点：</td>
+					    <td class="tdval1"><%=cb.getCurrent_location() %></td>
+					  </tr>
+					  <tr id="exhibitonHistoryDiv">
+					    <td class="tdpro1">展览历史：</td>
+					    <td class="tdval1"><%=cb.getExhibition_history() %></td>
 					  </tr>
 					</table>
 					<div id="bydiv" class="biaoyin" style="display:none">
@@ -324,20 +393,30 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 				<ul>
 					<li><a id="shape" onclick="javascript:navigation('shape');return false;" href="#">造型要素</a></li>
 					<li><a id="func" onclick="javascript:navigation('func');return false;" href="#">功能要素</a></li>
-					<li><a id="skill" onclick="javascript:navigation('skill');return false;" href="#">技术要素</a></li>
-					<li><a id="history" onclick="javascript:navigation('history');return false;" href="#">历史信息</a></li>
+					<li><a id="techonology" onclick="javascript:navigation('techonology');return false;" href="#">技术要素</a></li>
+					<li><a id="culture" onclick="javascript:navigation('culture');return false;" href="#">历史信息</a></li>
 				</ul>
 				<div id="shapeDiv" class="property">
 					<div id="shape-up" class="element">
-		    			<div id="shapedisc" class="eledisc">
-		    				<h4>形态描述:</h4>
+		    			<div id="shapeDiv2" class="eledisc">
+		    				<h4>器型:</h4>
 		    				<br>
 		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getShape() %></p>
 		    			</div>
-		    			<div id="linedisc" class="eledisc">
+		    			<div id="patternDiv" class="eledisc">
 		    				<h4>纹饰:</h4>
 		    				<br>
 		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getPattern() %></p>
+		    			</div>
+		    			<div id="structureDiv" class="eledisc">
+		    				<h4>结构:</h4>
+		    				<br>
+		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getStructure() %></p>
+		    			</div>
+		    			<div id="decorationDiv" class="eledisc">
+		    				<h4>装饰:</h4>
+		    				<br>
+		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getDecoration() %></p>
 		    			</div>
 			    	</div>
 			    	<hr>
@@ -350,7 +429,20 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 			    	</div>				
 				</div>
 				<div id="funcDiv" class="property" style="display:none">
-				    <div id="symbolfun" class="element">
+			    	<div id="usefun" class="element">
+		    			<div id="sceneDiv" class="eledisc">
+		    				<h4>使用情境:</h4>
+		    				<br>
+		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getScene() %></p>
+		    			</div>
+		    			<div id="c_usageDiv" class="eledisc">
+		    				<h4>使用方式:</h4>
+		    				<br>
+		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getC_usage() %></p>
+		    			</div>
+		    		</div>
+		    		<hr>
+		    		<div id="symbolfun" class="element">
 		    			<div class="eledisc">
 		    				<h4>象征意义:</h4>
 		    				<br>
@@ -358,52 +450,44 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		    			</div>
 			    	</div>
 			    	<hr>
-			    	<div id="usefun" class="element">
-		    			<div id="" class="eledisc">
-		    				<h4>使用场景:</h4>
-		    				<br>
-		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getScene() %></p>
-		    			</div>
-		    			<div id="" class="eledisc">
-		    				<h4>使用方式:</h4>
-		    				<br>
-		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getC_usage() %></p>
-		    			</div>
-		    		</div>
-			    	<hr>
 		    		<div id="beautyfun" class="element">
-		    			<h4>审美功能:</h4>
+		    			<h4>审美:</h4>
 		    			<br>
 		    			<p>&nbsp;&nbsp;&nbsp;<%=cb.getAesthetic_desc() %></p>
 		    		</div>	
 				</div>
-				<div id="skillDiv" class="property" style="display:none">
+				<div id="techonologyDiv" class="property" style="display:none">
 			    	<div id="material" class="element">
-			    		<h4>材料:</h4>
+			    		<h4>材质:</h4>
 			    		<br>
 			     		<p>&nbsp;&nbsp;&nbsp;<%=cb.getMaterial() %></p>
 			    	</div>
 			    	<hr>
 			    	<div id="craft" class="element">
-			    		<h4>制作工艺:</h4>
+			    		<h4>工艺:</h4>
 			    		<br>
 			    		<div id="process" class="eledisc">
 			    			<p>&nbsp;&nbsp;&nbsp;<%=cb.getTechnique() %></p>
 			    		</div>
 			    	</div>				
 				</div>
-				<div id="historyDiv" class="property" style="display:none";>
+				<div id="cultureDiv" class="property" style="display:none";>
 					 <div class="element">
-			    		<div class="eledisc">
+			    		<div id="historyInfoDiv" class="eledisc">
 			    			<h4>历史信息:</h4>
 			    			<br>
 			    			<p>&nbsp;&nbsp;&nbsp;<%=cb.getHistory_info() %></p>
 			    		</div>
 			    		<hr>
-			    		<div class="eledisc">
+			    		<div id="folkloreDiv" class="eledisc">
 			    			<h4>民间典故:</h4>
 			    			<br>
 			    			<p>&nbsp;&nbsp;&nbsp;<%=cb.getFolklore() %></p>
+			    		</div>
+			    		<div id="socialHistoryInfoDiv" class="eledisc">
+			    			<h4>社会历史信息:</h4>
+			    			<br>
+			    			<p>&nbsp;&nbsp;&nbsp;<%=cb.getSocial_history_info() %></p>
 			    		</div>
 			    	</div>					
 				</div>
