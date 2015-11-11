@@ -201,7 +201,9 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 				$("#shapeDiv2").hide();
 				$("#patternDiv").hide();
 				//功能要素
-				$("#functionDiv").hide();
+				$("#sceneDiv").hide();
+				$("#c_usageDiv").hide();
+				$("#symbolicDiv").hide();
 				//文化要素
 				$("#historyInfoDiv").hide();
 				$("#folkloreDiv").hide();
@@ -441,15 +443,13 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getC_usage() %></p>
 		    			</div>
 		    		</div>
-		    		<hr>
-		    		<div id="symbolfun" class="element">
+		    		<div id="symbolicDiv" class="element">
 		    			<div class="eledisc">
 		    				<h4>象征意义:</h4>
 		    				<br>
 		    				<p>&nbsp;&nbsp;&nbsp;<%=cb.getSymbolic_meaning() %></p>
 		    			</div>
 			    	</div>
-			    	<hr>
 		    		<div id="beautyfun" class="element">
 		    			<h4>审美:</h4>
 		    			<br>
