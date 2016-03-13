@@ -38,7 +38,7 @@ public class BaseController {
 
 
 	/**
-	 *  Êä³öÏìÓ¦
+	 *  ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 	 */
 	public void outputHtmlResponse(HttpServletResponse response, String str) {
 		try {
@@ -54,7 +54,7 @@ public class BaseController {
 
 	
 	/**
-	 * Êä³öJsonÏìÓ¦£º{"result":true}
+	 * ï¿½ï¿½ï¿½Jsonï¿½ï¿½Ó¦ï¿½ï¿½{"result":true}
 	 */
 	protected void outputJsonResponse(HttpServletResponse response, boolean result) {
 		JSONObject json = new JSONObject();
@@ -64,7 +64,7 @@ public class BaseController {
 	}
 
 	/**
-	 * Êä³öJsonÏìÓ¦£º{"result":true,"msg":"abc"}
+	 * ï¿½ï¿½ï¿½Jsonï¿½ï¿½Ó¦ï¿½ï¿½{"result":true,"msg":"abc"}
 	 */
 	protected void outputJsonResponse(HttpServletResponse response, boolean result, String message) {
 		JSONObject json = new JSONObject();
@@ -75,7 +75,7 @@ public class BaseController {
 	}
 	
 	/**
-	 * Êä³öJsonÏìÓ¦£º{"msg":"abc"}
+	 * ï¿½ï¿½ï¿½Jsonï¿½ï¿½Ó¦ï¿½ï¿½{"msg":"abc"}
 	 */
 	protected void outputJsonResponse(HttpServletResponse response,String message) {
 		this.flushResponse(response, message);
@@ -87,8 +87,8 @@ public class BaseController {
 		json.put("result", result);
 		json.put("message", message);
 		if (obj != null ){
-			JSONArray jsonArray = new JSONArray(obj);   //½«articleÊý¾Ý×ªÎªjson¶ÔÏó  
-			String data = jsonArray.toString();         //½«json¶ÔÏó×ªÎª×Ö·û´®  
+			JSONArray jsonArray = new JSONArray(obj);   //ï¿½ï¿½articleï¿½ï¿½ï¿½ï¿½×ªÎªjsonï¿½ï¿½ï¿½ï¿½  
+			String data = jsonArray.toString();         //ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½×ªÎªï¿½Ö·ï¿½ï¿½ï¿½  
 			json.put("data", data);
 		}
 		String content = json.toString();
@@ -139,8 +139,8 @@ public class BaseController {
 	}
 
 	/*
-	 * Êä³öjsonÊý¾Ý
-	 * Êä³ö¸ñÊ½Îª£º{result:true,data:[{"name":"name1","id":"id1"},{"name":"name2","id":"id2"}]}
+	 * json
+	 * {result:true,data:[{"name":"name1","id":"id1"},{"name":"name2","id":"id2"}]}
 	 */
 	protected void outputJsonResponse(HttpServletResponse response, boolean result, Collection coll) {
 		JSONObject json = new JSONObject();
@@ -154,8 +154,8 @@ public class BaseController {
 	}
 	
 	/*
-	 * Êä³öjsonÊý¾Ý
-	 * Êä³ö¸ñÊ½Îª£º{data:[{"name":"name1","id":"id1"},{"name":"name2","id":"id2"}]}
+	 * ï¿½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Îªï¿½ï¿½{data:[{"name":"name1","id":"id1"},{"name":"name2","id":"id2"}]}
 	 */
 	protected void outputJsonResponse(HttpServletResponse response,Collection coll) {
 		JSONArray jsonArray = null;
@@ -182,20 +182,20 @@ public class BaseController {
 	}
 
 	/**
-	 * ½«java¶ÔÏó×ª»»³Éjson×Ö·û´®
+	 * ï¿½ï¿½javaï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½jsonï¿½Ö·ï¿½ï¿½ï¿½
 	 *{"name":"name1","id":"id1"}
 	 */
 	public static String toJsonString(Object object) {
 		String res = "";
 		if (object != null ){
-			JSONArray jsonArray = new JSONArray(object);   //½«articleÊý¾Ý×ªÎªjson¶ÔÏó  
-			res = jsonArray.toString();         //½«json¶ÔÏó×ªÎª×Ö·û´®  
+			JSONArray jsonArray = new JSONArray(object);   //ï¿½ï¿½articleï¿½ï¿½ï¿½ï¿½×ªÎªjsonï¿½ï¿½ï¿½ï¿½  
+			res = jsonArray.toString();         //ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½×ªÎªï¿½Ö·ï¿½ï¿½ï¿½  
 		}
 		return res;
 	}
 
 	/*
-	 * ½«java¶ÔÏó×ª»¯ÎªjsonÊý×é×Ö·û´®
+	 * ï¿½ï¿½javaï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªjsonï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	 * [{"name":"name1","id":"id1"},{"name":"name2","id":"id2"}]
 	 */
 	public static String toJsonArrayString(Collection<Object> coll) {
