@@ -5,6 +5,7 @@
 	<typeAlias alias="collect" type="com.crelic.model.CollectBean" />
 	<typeAlias alias="biaoyin" type="com.crelic.model.Biaoyin" />
 	<typeAlias alias="file" type="com.crelic.model.UploadFile" />
+	<typeAlias alias="topSimilar" type="com.crelic.model.TopSimilar" />
 
 <!-- 
 	<resultMap id="cbMap" class="culturalBean">
@@ -196,5 +197,12 @@
 			</isNotEmpty>
 		</dynamic>
 	</select>
+	
+	<!-- 根据文物id获取最相似的十件文物-->
+	<select id="getTopSimilar" parameterClass="String" 
+		 resultClass="topSimilar">
+		select * from topsimilar where identifier = #identifier#
+	</select>
+	
 	
 </sqlMap>  

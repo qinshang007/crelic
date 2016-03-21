@@ -42,5 +42,9 @@ public interface CulturalService {
 	
 	/* 计算页数*/
 	public int getPageCount(int rowCount);
+	
+	/*根据文物id获取最相似的十件文物*/
+	public List<CulturalBean> getTopSimilar(String identifier);
+
 
 }

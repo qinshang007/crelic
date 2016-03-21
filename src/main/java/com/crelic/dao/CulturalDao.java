@@ -3,6 +3,7 @@ package com.crelic.dao;
 import java.util.List;
 
 import com.crelic.model.CulturalBean;
+import com.crelic.model.TopSimilar;
 import com.crelic.model.UploadFile;
 
 public interface CulturalDao {
@@ -39,5 +40,9 @@ public interface CulturalDao {
 	
 	/*根据用户的收藏返回所有素材的总数*/
 	public int getRowCountByUserId(String userId,String time,String color,String biaoyin);
+	
+	/*根据文物id获取最相似的十件文物*/
+	public TopSimilar getTopSimilar(String identifier);
+
 	
 }

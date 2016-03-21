@@ -222,7 +222,7 @@ public class HomeController extends BaseController{
 			CulturalBean cb = culService.getCultural(culId);
 			List<UploadFile> piclist = culService.getCulturalPic(culId);
 			cb.setEwPicture(piclist);
-			List<CulturalBean> recommList = culService.getRecommCul(cb.getClassification(),2); //获取推荐列表
+			List<CulturalBean> recommList = culService.getTopSimilar(culId);//.getRecommCul(cb.getClassification(),2); //获取推荐列表
 			List<CulturalBean> otcl = culService.getRecommCul(cb.getType(),1);	//最近查看文物
 			Map map = new HashMap();
 			map.put("cb", cb);

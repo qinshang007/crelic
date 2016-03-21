@@ -146,7 +146,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 			<div class="rtitle"><img src="images/friendlylink.jpg"/></div>
 			<div class="link">
 				<ul>
-					<li><a href="display.jsp"><img alt="" src="images/zju.jpg"></a></li>
+					<li><a href="#"><img alt="" src="images/zju.jpg"></a></li>
 					<li><a href="#"><img alt="" src="images/zjwwj.jpg"></a></li>
 					<li><a href="#"><img alt="" src="images/zjbwg.jpg"></a></li>
 				</ul>

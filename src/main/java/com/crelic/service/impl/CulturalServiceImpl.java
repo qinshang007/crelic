@@ -1,10 +1,13 @@
 package com.crelic.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.crelic.model.CulturalBean;
+import com.crelic.model.TopSimilar;
 import com.crelic.model.UploadFile;
 import com.crelic.service.BaseService;
 import com.crelic.service.CulturalService;
@@ -84,5 +87,30 @@ public class CulturalServiceImpl extends BaseService implements CulturalService{
 		}
 		return pageCount;
 	}
+	
+	/**
+	 * 根据文物id获取最相似的十件文物
+	 */
+	public List<CulturalBean> getTopSimilar(String identifier) {
+		// TODO Auto-generated method stub
+		List<CulturalBean> topSimilar = new ArrayList<CulturalBean>();
+		TopSimilar top = getCulturalDao().getTopSimilar(identifier);
+		if(top != null){
+			String topsimilar = top.getTopSimilar();
+			String[] tops = topsimilar.split(",");
+			HashMap<String,String> map = new HashMap<String,String>();
+			for(int i=0;i<tops.length;i++){
+				String id = tops[i];
+				CulturalBean cb = getCulturalDao().getCultural(id);
+				String title = cb.getTitle();
+				if(cb != null && map.get(title) == null){
+					map.put(title, "exist");
+					topSimilar.add(cb);
+				}
+			}
+		}
+		return topSimilar;
+	}
+
 
 }

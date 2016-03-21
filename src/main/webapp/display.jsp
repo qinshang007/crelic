@@ -264,7 +264,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 	   			<div class="dltitle"><img src="images/display/recommend.jpg" /></div>
 	   			<div class="dcontent">
 	   				<ul>
-		                <c:forEach var="cul" items="${recommList}">
+		                <c:forEach var="cul" items="${recommList}" end="3">
 		                	<li><a href="/crelic/home/display.do?culId=${cul.identifier}" title="${cul.title}"><img src="<%=url %>/crelicBase/upload/${cul.mainpic}" width="105" height="100" alt="title"/></a></li>
 		                </c:forEach>
 	   				</ul>

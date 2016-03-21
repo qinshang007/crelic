@@ -7,6 +7,7 @@ import java.util.Map;
 import com.crelic.dao.BaseDao;
 import com.crelic.dao.CulturalDao;
 import com.crelic.model.CulturalBean;
+import com.crelic.model.TopSimilar;
 import com.crelic.model.UploadFile;
 
 public class CulturalDaoImpl extends BaseDao implements CulturalDao{
@@ -178,5 +179,17 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 		}
 		return res;
 	}
+	
+	public TopSimilar getTopSimilar(String identifier) {
+		// TODO Auto-generated method stub
+		TopSimilar top = null;
+		try{
+			top = (TopSimilar)getSqlMapClientTemplate().queryForObject("getTopSimilar", identifier);
+		}catch (Exception e) {
+			logger.error("根据文物id获取最相似的十件文物出错！" +  ",errMsg=" + e.getMessage());
+		}
+		return top;
+	}
+
 
 }
