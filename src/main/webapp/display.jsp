@@ -341,6 +341,10 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 					    <td class="tdval1"><%=cb.getUsed_title() %></td>
 					  </tr>
 					  <tr>
+					    <td class="tdpro1">类别：</td>
+					    <td class="tdval1"><%=cb.getClassification() %></td>
+					  </tr>
+					  <tr>
 					    <td class="tdpro1">级别：</td>
 					    <td class="tdval1"><%=cb.getC_level() %></td>
 					  </tr>
