@@ -84,9 +84,9 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
   	 	
     <div class="content">
 		<div class="content-left" >
-			<div class="ltitle"><img src="images/moveble.jpg" /></div>
+			<div class="ltitle"><img src="images/movable.png" height="32" width="143"/></div>
 			<div id="movediv" class="content-left-up"  ></div>
-			<div class="ltitle"><img src="images/unmoveble.jpg" /></div>
+			<div class="ltitle"><img src="images/unmovable.png" height="32" width="143" /></div>
 			<div id="unmovediv" class="content-left-down" ></div>
 		</div>	
 		<div class="content-middle">
@@ -134,7 +134,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
         	</div>
 		</div>	
 		<div class="content-right">
-			<div class="rtitle"><img src="images/announcement.jpg"/></div>
+			<div class="rtitle"><img src="images/announcement.png" height="30" width="136"/></div>
 			<div class="news">
 				<ul>
 					<li>.国家文物局召开领导班子专题</li>
@@ -143,7 +143,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 					<li>.国家文物局召开领导班子专题</li>
 				</ul>
 			</div>
-			<div class="rtitle"><img src="images/friendlylink.jpg"/></div>
+			<div class="rtitle"><img src="images/friendlylink.png" height="30" width="136" /></div>
 			<div class="link">
 				<ul>
 					<li><a href="#"><img alt="" src="images/zju.jpg"></a></li>
