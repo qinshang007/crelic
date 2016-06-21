@@ -41,7 +41,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 		{ 
 			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 			var r = window.location.search.substr(1).match(reg); 
-			if (r != null) return decodeURIComponent(r[2]); return null; 
+			if (r != null) return decodeURIComponent(r[2]); return ""; 
 		}
 		
 				
@@ -92,6 +92,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 
 				var id = $(this).attr('id');
 				var id_pre = id.substring(0,1);
+				var valid = false;
 				
 				if(id_pre == 'l' || id_pre == 'm')
 				{
@@ -110,6 +111,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 						 time = encodeURIComponent(id.substring(2,id.length));
 						 $("#"+id).css("color","#FFAA01");
 					}
+					valid = true;
 				}
 				else if(id_pre == 'c')
 				{
@@ -128,15 +130,16 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 						 color = id.substring(3,id.length);
 						 $("#"+id).css("color","#FFAA01");
 					}
+					valid = true;
 				}
-				
-		         window.location.href = "/crelic/home/type.do?culType=${culType}&pageNow=1&&time="+time+"&&color="+color;
+				if(valid)
+		         	window.location.href = "/crelic/home/type.do?culType=${culType}&pageNow=1&&time="+time+"&&color="+color;
 
 			});
 			 
 			 $('.skey').click(function(){
 				 
-				 
+				 var valid = false;
 				 var id = $(this).attr('id');
 				 var id_pre = id.substring(0,1);
 				 
@@ -148,6 +151,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 					 var mtime = 'm_' + time;
 					 $("#"+mtime).css("color","#888");
 					 time ="";
+					 valid = true;
 				 }
 				 else if(id_pre == 'c')
 				{
@@ -157,9 +161,10 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 					 var mcolor = 'cm_' + color;
 					 $("#"+mcolor).css("color","#888");
 					 color ="";
+					 valid = true;
 				}
-				 
-		         window.location.href = "/crelic/home/type.do?culType=${culType}&pageNow=1&&time="+time+"&&color="+color;
+				 if(valid)
+		         	window.location.href = "/crelic/home/type.do?culType=${culType}&pageNow=1&&time="+time+"&&color="+color;
 			 });
 
 		})
@@ -200,13 +205,18 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 				 alert("检索内容不能为空！");
 			 else{
 				 keyWord = encodeURIComponent(keyWord);
-				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&&pageNow=1";
+				 var type = '${culType}';
+				 var time = getQueryString("time");
+				 var color = getQueryString("color");
+				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&pageNow=1&culType="+type+"&time="+time+"&color="+color;
 			 }
 		 }
 
 		 function getTimeAndColor()
 		 {
-			 var str="&time="+time+"&color="+color;
+			 var t = getQueryString("time");
+			 var c = getQueryString("color");
+			 var str="&time="+t+"&color="+c;
 			 return str;
 		 }
 		
@@ -247,7 +257,13 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 	    	</div>
 	    	<div class="right">
 	    		<div class="select">
-	    			<div class="stitle"><span>筛选条件&nbsp;--&nbsp;${culType}</span></div>
+<!--  	    		<div class="stitle"><span>筛选条件&nbsp;--&nbsp;${culType}</span></div> -->
+					<div class="scon" id="classification">
+						<div class="skey" id="f_分类">分类:</div>
+						<div id="classificationPanel" class="svalue" >
+							<div class="elem" id="f_${culType}"><span>${culType}</span></div>
+						</div>
+					</div>
 	    			<div class="scon" id="age">
 	    				<div class="skey" id="t_时代">时代:</div>
 	    				<div id="littleagePanel" class="svalue" >
@@ -261,8 +277,8 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 	    				</div>
 	    				<div id="moreagePanel" class ="more" style="display:none">
 	    					<div class="svalue">
-		    					<div class="elem" id="m_旧石器时代">旧石器时代</div>
-		    					<div class="elem" id="m_新时器时代">新时器时代</div>
+		    					<div class="elem" id="m_旧石器时代">旧石器</div>
+		    					<div class="elem" id="m_新时器时代">新时器</div>
 		    					<div class="elem" id="m_夏">夏朝</div>
 		    					<div class="elem" id="m_商">商朝</div>
 		    					<div class="elem" id="m_西周">西周</div>
@@ -289,7 +305,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 	    					</div>
 	    					<div class="svalue">
 	    						<div class="elem" id="m_清">清朝</div>
-		    					<div class="elem" id="m_中华民国">中华民国</div>
+		    					<div class="elem" id="m_中华民国">民国</div>
 		    					<div class="elem elmore" title="m_中华人民共和国" id="中华人民共和国">中华人民共和国</div>
 	    					</div>    								  					
 	    				</div>
@@ -376,7 +392,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
 	    				if(size == 0)
 	    				{	
 	    			%>
-	    				<h1>该分类下暂无文物！</h1>
+	    				<h1>该分类下暂无文物，请重新选择分类！</h1>
 	    				
 	    			<% 	
 	    				}

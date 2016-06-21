@@ -140,20 +140,24 @@ public class HomeController extends BaseController{
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response,UserBean ub) throws Exception{
 		try{
 			String keyword = request.getParameter("keyWord");
+			System.out.println("关键字：----》"+keyword);
 			String keywords[] = keyword.split(";");
 			List<String> keywordList = Arrays.asList(keywords);
 			int pageNow = Integer.valueOf(request.getParameter("pageNow"));
 			String time = request.getParameter("time");
 			String color = request.getParameter("color");
-			int rowCount = culService.getRowCountBySer(keywordList,time,color);
+			String type = request.getParameter("culType");
+			int rowCount = culService.getRowCountBySer(keywordList,time,color,type);
 	        int pageCount = culService.getPageCount(rowCount);
-			List<CulturalBean> clList = culService.search(keywordList,time,color,pageNow);	//根据搜索关键词分页查找文物
+			List<CulturalBean> clList = culService.search(keywordList,time,color,type,pageNow);	//根据搜索关键词分页查找文物
 			List<CulturalBean> recommList = culService.getRecommCul("",0); ;	//获取推荐文物列表
 			Map map = new HashMap();
 			map.put("rowCount", rowCount);
 			map.put("pageCount", pageCount);
 			map.put("pageNow", pageNow);
 			map.put("keyWord", keyword);
+			map.put("culType", type);
+			map.put("keywordList",keywordList);
 			map.put("clList", clList);
 			map.put("recommList", recommList);
 			return new ModelAndView("search").addAllObjects(map);

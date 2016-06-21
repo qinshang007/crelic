@@ -95,13 +95,14 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 	}
 
 	public List<CulturalBean> search(List<String> keywords, String time,
-			String color, int pageNow) {
+			String color,String type, int pageNow) {
 		// TODO Auto-generated method stub
 		List<CulturalBean> cblist = null;
 		try{
 			Map map = new HashMap();
 			map.put("keywords", keywords);
 			map.put("time", time);
+			map.put("type", type);
 			map.put("color", color);
 			map.put("_start", (pageNow-1)*pageSize);
 			map.put("_size", pageSize);
@@ -147,7 +148,7 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 		return res;
 	}
 
-	public int getRowCountBySer(List<String> keywords, String time, String color) {
+	public int getRowCountBySer(List<String> keywords, String time, String color,String type) {
 		// TODO Auto-generated method stub
 		int res = 0;
 		try{
@@ -155,6 +156,7 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 			map.put("keywords", keywords);
 			map.put("time", time);
 			map.put("color", color);
+			map.put("type", type);
 			res = (Integer)getSqlMapClientTemplate().queryForObject("getRowCountBySer", map);
 		}catch (Exception e) {
 			logger.error("返回某分类下所有素材的总数出错！" +  ",errMsg=" + e.getMessage());

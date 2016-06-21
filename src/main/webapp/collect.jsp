@@ -239,7 +239,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		 function getTimeAndColor()
 		 {
-			 var str="&time="+time+"&color="+color;
+			 var t = getQueryString("time");
+			 var c = getQueryString("color");
+			 var str="&time="+t+"&color="+c;
 			 return str;
 		 }
 		 
@@ -298,8 +300,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				</div>
 	    				<div id="moreagePanel" class ="more" style="display:none">
 	    					<div class="svalue">
-		    					<div class="elem" id="m_旧石器时代">旧石器时代</div>
-		    					<div class="elem" id="m_新时器时代">新时器时代</div>
+		    					<div class="elem" id="m_旧石器时代">旧石器</div>
+		    					<div class="elem" id="m_新时器时代">新时器</div>
 		    					<div class="elem" id="m_夏">夏朝</div>
 		    					<div class="elem" id="m_商">商朝</div>
 		    					<div class="elem" id="m_西周">西周</div>
@@ -326,7 +328,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    					</div>
 	    					<div class="svalue">
 	    						<div class="elem" id="m_清">清朝</div>
-		    					<div class="elem" id="m_中华民国">中华民国</div>
+		    					<div class="elem" id="m_中华民国">民国</div>
 		    					<div class="elem elmore" title="m_中华人民共和国" id="中华人民共和国">中华人民共和国</div>
 	    					</div> 
 	    				</div>
@@ -414,7 +416,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				if(size == 0)
 	    				{	
 	    			%>
-	    				<h1>找不到文物！</h1>
+	    				<h1>暂无符合该条件的文物，请重新选择条件！</h1>
 	    				
 	    			<% 	
 	    				}

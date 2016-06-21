@@ -17,7 +17,6 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script src="scripts/myscripts.js" charset="gb2312"></script>
 	<script src="scripts/jquery.js"></script>
@@ -40,7 +39,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 		{ 
 			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 			var r = window.location.search.substr(1).match(reg); 
-			if (r != null) return decodeURIComponent(r[2]); return null; 
+			if (r != null) return decodeURIComponent(r[2]); return ""; 
 		}
 		
 				
@@ -91,6 +90,9 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 
 				var id = $(this).attr('id');
 				var id_pre = id.substring(0,1);
+				var keywords = $("#keywords").val();
+				var culType = $("#culType").val();
+				var valid = false;
 				
 				if(id_pre == 'l' || id_pre == 'm')
 				{
@@ -109,6 +111,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 						 time = encodeURIComponent(id.substring(2,id.length));
 						 $("#"+id).css("color","#FFAA01");
 					}
+					valid = true;
 				}
 				else if(id_pre == 'c')
 				{
@@ -127,17 +130,29 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 						 color = id.substring(3,id.length);
 						 $("#"+id).css("color","#FFAA01");
 					}
+					valid = true;
+				}else if(id_pre == 'k'){//去掉关键字
+					var keyword = id.substring(2,id.length);
+					var start = keywords.indexOf(keyword);
+					if(start != 0){
+						keyword = ";"+keyword;
+					}else if(keyword != keywords){
+						keyword = keyword+";";
+					}
+					keywords = keywords.replace(keyword,"");
+					valid = true;
 				}
-				
-		         window.location.href = "/crelic/home/search.do?keyWord=${keyWord}&pageNow=1&&time="+time+"&&color="+color;
-
+				if(valid)
+		         	window.location.href = "/crelic/home/search.do?keyWord="+keywords+"&pageNow=1&&time="+time+"&&color="+color+"&culType="+culType;
 			});
 			 
 			 $('.skey').click(function(){
 				 
-				 
+				 var keywords = $("#keywords").val();
 				 var id = $(this).attr('id');
 				 var id_pre = id.substring(0,1);
+				 var valid = false;
+				 var culType = $("#culType").val();
 				 
 				 if(id_pre == 't')
 				 {
@@ -147,6 +162,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 					 var mtime = 'm_' + time;
 					 $("#"+mtime).css("color","#888");
 					 time = "";
+					 valid = true;
 				 }
 				 else if(id_pre == 'c')
 				{
@@ -156,9 +172,16 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 					 var mcolor = 'cm_' + color;
 					 $("#"+mcolor).css("color","#888");
 					 color = "";
+					 valid = true;
+				}else if(id_pre == 'k'){
+					keywords = "";
+					valid = true;
+				}else if(id_pre == 'f'){
+					culType = "";
+					valid = true;
 				}
-				 
-		         window.location.href = "/crelic/home/search.do?keyWord=${keyWord}&pageNow=1&&time="+time+"&&color="+color;
+				 if(valid)
+		         	window.location.href = "/crelic/home/search.do?keyWord="+keywords+"&pageNow=1&time="+time+"&color="+color+"&culType="+culType;
 			 });
 
 		})
@@ -194,19 +217,27 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 		
 		 function search()
 		 {
-			 var keyWord = document.getElementById("keyWord").value;
+			 var keyWord = $("#search").val();
 			 if(keyWord==""||keyWord==null||keyWord=="请输入检索的内容")
 				 alert("检索内容不能为空！");
 			 else{
-				 keyWord = '${keyWord}'+';'+keyWord;
+				 var keywords = $("#keywords").val();
+				 var culType = $("#culType").val();
+				 var time = getQueryString("time");
+				 var color = getQueryString("color");
+				 if(keywords != "" && keywords != null)
+				 	keyWord = $("#keywords").val()+';'+keyWord;
 				 keyWord = encodeURIComponent(keyWord);
-				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&pageNow=1";
+				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&pageNow=1"+"&time="+time+"&color="+color+"&culType="+culType;
 			 }
 		 }
 
 		 function getTimeAndColor()
 		 {
-			 var str="&time="+time+"&color="+color;
+			 var t = getQueryString("time");
+			 var c = getQueryString("color");
+			 var culType = $("#culType").val();
+			 var str="&time="+t+"&color="+c+"&culType="+culType;
 			 return str;
 		 }
 		 
@@ -220,6 +251,8 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
   
   <body onload="init()">
 	   <div class="top">
+	   		<input type="hidden" id="keywords" value='${keyWord}'>
+	   		<input type="hidden" id="culType" value='${culType}'>
 			<div class="title">
 			<c:choose>
 				<c:when test="${not empty sessionScope.username}">
@@ -232,7 +265,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 			</div>
 			<div class="search">
 				<span class="type">文物信息分类</span>
-				<input class="searchBox" type="text" id="keyWord" name="search" value="请输入检索的内容" 
+				<input class="searchBox" type="text" id="search" name="search" value="请输入检索的内容" 
 					onclick="clearDefaultText(this,'请输入检索的内容')"/>
 				<div class="searchSummit" onclick="search()"></div>		
 			</div>
@@ -251,7 +284,25 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 	    	</div>
 	    	<div class="right">
 	    		<div class="select">
-	    			<div class="stitle"><span>筛选条件&nbsp;--&nbsp;${keyWord}</span></div>
+<!--  	    		<div class="stitle"><span>筛选条件&nbsp;--&nbsp;${keyWord}</span></div>-->
+					<c:if test="${not empty culType}">
+						<div class="scon" id="classification">
+							<div class="skey" id="f_分类">分类:</div>
+							<div id="classificationPanel" class="svalue" >
+								<div class="elem" id="f_${culType}"><span>${culType}</span></div>
+							</div>
+						</div>
+					</c:if>
+					<div class="scon" id="keyword">
+						<div class="skey" id="k_关键字">关键字:</div>
+						<div id="keywordPanel" class="svalue" >
+							<c:forEach var="keyword" items="${keywordList}">
+								<c:if test="${not empty keyword}">
+									<div color="#888" class="elem" id="k_${keyword}"><span>${keyword}</span></div>
+								</c:if>
+							</c:forEach>
+						</div>
+					</div>
 	    			<div class="scon" id="age">
 	    				<div class="skey" id="t_时代">时代:</div>
 	    				<div id="littleagePanel" class="svalue" >
@@ -265,8 +316,8 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 	    				</div>
 	    				<div id="moreagePanel" class ="more" style="display:none">
 	    					<div class="svalue">
-		    					<div class="elem" id="m_旧石器时代">旧石器时代</div>
-		    					<div class="elem" id="m_新时器时代">新时器时代</div>
+		    					<div class="elem" id="m_旧石器时代">旧石器</div>
+		    					<div class="elem" id="m_新时器时代">新时器</div>
 		    					<div class="elem" id="m_夏">夏朝</div>
 		    					<div class="elem" id="m_商">商朝</div>
 		    					<div class="elem" id="m_西周">西周</div>
@@ -293,7 +344,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 	    					</div>
 	    					<div class="svalue">
 	    						<div class="elem" id="m_清">清朝</div>
-		    					<div class="elem" id="m_中华民国">中华民国</div>
+		    					<div class="elem" id="m_中华民国">民国</div>
 		    					<div class="elem elmore" title="m_中华人民共和国" id="中华人民共和国">中华人民共和国</div>
 	    					</div> 
 	    				</div>   								  					
@@ -381,7 +432,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 	    				if(size == 0)
 	    				{	
 	    			%>
-	    				<h1>找不到文物！</h1>
+	    				<h1>暂无符合该条件的文物，请重新选择条件！</h1>
 	    				
 	    			<% 	
 	    				}

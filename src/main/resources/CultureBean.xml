@@ -113,10 +113,13 @@
 		select identifier,title,mainpic from culture where 
 		<iterate property="keywords" conjunction="and">   
         	<![CDATA[  
-            concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
+            concat(classification,title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
         	]]>   
     	</iterate>
 		<dynamic prepend="">
+			<isNotEmpty prepend="and" property="type">
+				 classification = #type#
+			</isNotEmpty>
 			<isNotEmpty prepend="and" property="time">
 				 creation_date like '%$time$%'
 			</isNotEmpty>
@@ -178,10 +181,13 @@
 		select count(*) from culture  where 
 		<iterate property="keywords" conjunction="and">   
         	<![CDATA[  
-            concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
+            concat(classification,title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
         	]]>   
     	</iterate>
 		<dynamic prepend=""> 
+			<isNotEmpty prepend="and" property="type">
+				 classification = #type#
+			</isNotEmpty>
 			<isNotEmpty prepend="and" property="time">
 				 creation_date like '%$time$%'
 			</isNotEmpty>

@@ -31,6 +31,8 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 
 	<script type=text/javascript>
 	
+		var isByOn = false;
+	
 		$(function(){			
 		   $(".jqzoom").jqueryzoom({
 				xzoom:400,
@@ -82,6 +84,11 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		
 		function collect()
 		{
+			var userName = '${sessionScope.username}';
+			if(userName == "" || userName == null){
+				alert("请登录后再操作！");
+				return;
+			}
 			var culId = '${cb.identifier}';
 			var cultype = '${cb.classification}'
 			var url = "/crelic/home/collect.do";
@@ -106,6 +113,11 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		
 		function delcollect()
 		{
+			var userName = '${sessionScope.username}';
+			if(userName == "" || userName == null){
+				alert("请登录后再操作！");
+				return;
+			}
 			var culId = '${cb.identifier}';
 			var cultype = '${cb.classification}'
 			var uri = "/crelic/home/delcollect.do";
@@ -130,12 +142,22 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 		
 		function showby()
 		{
-			 $("#bydiv").show(); 
+			 if(!isByOn){
+			 	$("#bydiv").show(); 
+			 	isByOn = true;
+			 }else{
+				 $("#bydiv").hide(); 
+				 isByOn = false;
+			 }
 		}
 
 		function biaoyin()
 		{
 			var userName = '${sessionScope.username}';
+			if(userName == "" || userName == null){
+				alert("请登录后再操作！");
+				return;
+			}
 			var culId = '${cultural.identifier}';
 			var cultype = '${cultural.classification}'
 			var by = $("#byinput").val();
@@ -240,6 +262,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
   <body onload="init()">
   
     <div class="top">
+    	<input type="hidden" id="username" value="${sessionScope.username}">
 		<div class="title">
 			<c:choose>
 				<c:when test="${not empty sessionScope.username}">
@@ -329,7 +352,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 					  	</div>
 					</div>
 					<div class="picbutton">
-						<div id="bigpic" class="buttonimg" onclick="showby();"><img src="images/display/biaoying.jpg" /></div>
+						<div id="bigpic" class="buttonimg" onclick="showby()"><img src="images/display/biaoying.jpg" /></div>
 						<div id="collect" class="buttonimg" onclick="collect()"><img src="images/display/collect.jpg" /></div>
 						<div id="delcollect" class="buttonimg" style="display:none" onclick="delcollect()"><img src="images/display/delcollect.jpg" /></div>												
 					</div>				

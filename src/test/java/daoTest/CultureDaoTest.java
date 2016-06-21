@@ -84,7 +84,7 @@ public class CultureDaoTest {
 		String time = "Ã÷";
 		String color = null;
 		int pageNow = 1;
-		List<CulturalBean> cblist = clDao.search(keywords, time, color, pageNow);
+		List<CulturalBean> cblist = clDao.search(keywords, time, color, "",pageNow);
 		for(int i=0;i<cblist.size();i++){
 			System.out.println("title:"+cblist.get(i).getTitle());
 		}
@@ -121,7 +121,7 @@ public class CultureDaoTest {
 		keywords.add("Çà»¨´É");
 		String time = "";
 		String color = null;
-		int count = clDao.getRowCountBySer(keywords, time, color);
+		int count = clDao.getRowCountBySer(keywords, time, color,"");
 		System.out.println(count);
 	}
 	
