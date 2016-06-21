@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script src="scripts/myscripts.js" charset="gb2312"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
@@ -25,14 +26,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<center>
 	    <div class="login">
 	    	<div class="ltitle">
-	    		<h1>登录/注册 &nbsp;&nbsp;文物知识库</h1>
+	    		<h1>文物知识库</h1>
 	    	</div>
 	    	<div class="left"><img style="width:382px;height:332px;" src="images/bg.jpg"></div>
 	    	<div class="right">
 	    		<form action="/crelic/home/login.do" method="post">
 		    		<div class="up">
 			    		<span>登录名:</span>
-			    		<input type="text" name="userName" value="手机号/会员号/邮箱" style="width:300px;" />
+			    		<input type="text" name="userName" value="手机号/会员号/邮箱" style="width:300px;" onclick="clearDefaultText(this,'手机号/会员号/邮箱')" />
 			    		<span>登录密码:</span>
 			    		<input type="password" name="password" style="width:300px;" />
 		    		</div>

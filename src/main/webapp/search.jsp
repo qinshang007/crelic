@@ -195,11 +195,12 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 		 function search()
 		 {
 			 var keyWord = document.getElementById("keyWord").value;
-			 if(keyWord==""||keyWord==null)
+			 if(keyWord==""||keyWord==null||keyWord=="请输入检索的内容")
 				 alert("检索内容不能为空！");
 			 else{
+				 keyWord = '${keyWord}'+';'+keyWord;
 				 keyWord = encodeURIComponent(keyWord);
-				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&&pageNow=1";
+				 window.location.href = "/crelic/home/search.do?keyWord="+keyWord+"&pageNow=1";
 			 }
 		 }
 

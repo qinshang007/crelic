@@ -26,7 +26,7 @@ public interface CulturalService {
 	public List<CulturalBean> getCulByType(String type, String time, String color,int pageNow);
 	
 	/*根据搜索的关键词返回查询的文物*/
-	public List<CulturalBean> search(String keyWord, String time, String color,int pageNow);
+	public List<CulturalBean> search(List<String> keyWords, String time, String color,int pageNow);
 	
 	/*根据用户id，返回他收藏的文物*/
 	public List<CulturalBean> getCulByUserId(String userId,String time,String color,String biaoyin,int pageNow);
@@ -35,7 +35,7 @@ public interface CulturalService {
 	public int getRowCountByType(String type,String time,String color);
 	
 	/*根据查询关键字返回所有素材的总数*/
-	public int getRowCountBySer(String keyWord,String time,String color);
+	public int getRowCountBySer(List<String> keyWords,String time,String color);
 	
 	/*根据用户的收藏返回所有素材的总数*/
 	public int getRowCountByUserId(String userId,String time,String color,String biaoyin);

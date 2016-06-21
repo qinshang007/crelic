@@ -94,13 +94,13 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 		return cblist;
 	}
 
-	public List<CulturalBean> search(String keyword, String time,
+	public List<CulturalBean> search(List<String> keywords, String time,
 			String color, int pageNow) {
 		// TODO Auto-generated method stub
 		List<CulturalBean> cblist = null;
 		try{
 			Map map = new HashMap();
-			map.put("keyword", keyword);
+			map.put("keywords", keywords);
 			map.put("time", time);
 			map.put("color", color);
 			map.put("_start", (pageNow-1)*pageSize);
@@ -147,12 +147,12 @@ public class CulturalDaoImpl extends BaseDao implements CulturalDao{
 		return res;
 	}
 
-	public int getRowCountBySer(String keyword, String time, String color) {
+	public int getRowCountBySer(List<String> keywords, String time, String color) {
 		// TODO Auto-generated method stub
 		int res = 0;
 		try{
 			Map map = new HashMap();
-			map.put("keyword", keyword);
+			map.put("keywords", keywords);
 			map.put("time", time);
 			map.put("color", color);
 			res = (Integer)getSqlMapClientTemplate().queryForObject("getRowCountBySer", map);

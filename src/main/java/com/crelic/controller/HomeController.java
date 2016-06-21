@@ -1,6 +1,7 @@
 package com.crelic.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,12 +140,14 @@ public class HomeController extends BaseController{
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response,UserBean ub) throws Exception{
 		try{
 			String keyword = request.getParameter("keyWord");
+			String keywords[] = keyword.split(";");
+			List<String> keywordList = Arrays.asList(keywords);
 			int pageNow = Integer.valueOf(request.getParameter("pageNow"));
 			String time = request.getParameter("time");
 			String color = request.getParameter("color");
-			int rowCount = culService.getRowCountBySer(keyword,time,color);
+			int rowCount = culService.getRowCountBySer(keywordList,time,color);
 	        int pageCount = culService.getPageCount(rowCount);
-			List<CulturalBean> clList = culService.search(keyword,time,color,pageNow);	//根据搜索关键词分页查找文物
+			List<CulturalBean> clList = culService.search(keywordList,time,color,pageNow);	//根据搜索关键词分页查找文物
 			List<CulturalBean> recommList = culService.getRecommCul("",0); ;	//获取推荐文物列表
 			Map map = new HashMap();
 			map.put("rowCount", rowCount);

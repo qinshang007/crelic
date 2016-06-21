@@ -110,8 +110,13 @@
 	<!--根据搜索的关键词返回所查询的文物-->
 	<select id="search" parameterClass="java.util.HashMap"
 		resultClass="culturalBean">
-		select identifier,title,mainpic from culture where concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keyword$%'
-		<dynamic prepend=""> 
+		select identifier,title,mainpic from culture where 
+		<iterate property="keywords" conjunction="and">   
+        	<![CDATA[  
+            concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
+        	]]>   
+    	</iterate>
+		<dynamic prepend="">
 			<isNotEmpty prepend="and" property="time">
 				 creation_date like '%$time$%'
 			</isNotEmpty>
@@ -170,7 +175,12 @@
 	<!--根据查询关键字返回所有素材的总数-->
 	<select id="getRowCountBySer" parameterClass="java.util.HashMap"
 		resultClass="Integer">
-		select count(*) from culture  where concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keyword$%'
+		select count(*) from culture  where 
+		<iterate property="keywords" conjunction="and">   
+        	<![CDATA[  
+            concat(title,c_level,creation_date,place_of_origin,creator,excavation_date,excavation_place,current_location,exhibition_history,shape,pattern,color,scene,c_usage,symbolic_meaning,aesthetic_desc,material,technique,history_info,folklore) like '%$keywords[]$%'
+        	]]>   
+    	</iterate>
 		<dynamic prepend=""> 
 			<isNotEmpty prepend="and" property="time">
 				 creation_date like '%$time$%'

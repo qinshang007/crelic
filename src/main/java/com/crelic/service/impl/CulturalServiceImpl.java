@@ -48,10 +48,10 @@ public class CulturalServiceImpl extends BaseService implements CulturalService{
 		return getCulturalDao().getCulByType(type, time, color, pageNow);
 	}
 
-	public List<CulturalBean> search(String keyWord, String time, String color,
+	public List<CulturalBean> search(List<String> keyWords, String time, String color,
 			int pageNow) {
 		// TODO Auto-generated method stub
-		return getCulturalDao().search(keyWord, time, color, pageNow);
+		return getCulturalDao().search(keyWords, time, color, pageNow);
 	}
 
 	public List<CulturalBean> getCulByUserId(String userId, String time,
@@ -65,9 +65,9 @@ public class CulturalServiceImpl extends BaseService implements CulturalService{
 		return getCulturalDao().getRowCountByType(type, time, color);
 	}
 
-	public int getRowCountBySer(String keyWord, String time, String color) {
+	public int getRowCountBySer(List<String> keyWords, String time, String color) {
 		// TODO Auto-generated method stub
-		return getCulturalDao().getRowCountBySer(keyWord, time, color);
+		return getCulturalDao().getRowCountBySer(keyWords, time, color);
 	}
 
 	public int getRowCountByUserId(String userId, String time, String color,

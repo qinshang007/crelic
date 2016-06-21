@@ -1,8 +1,7 @@
 package daoTest;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -80,11 +79,12 @@ public class CultureDaoTest {
 	public void testSearch(){
 		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
 		CulturalDao clDao = (CulturalDao)context.getBean("culturalDao");
-		String keyword="青花瓷";
+		List<String> keywords = new ArrayList<String>();
+		keywords.add("青花瓷");
 		String time = "明";
 		String color = null;
 		int pageNow = 1;
-		List<CulturalBean> cblist = clDao.search(keyword, time, color, pageNow);
+		List<CulturalBean> cblist = clDao.search(keywords, time, color, pageNow);
 		for(int i=0;i<cblist.size();i++){
 			System.out.println("title:"+cblist.get(i).getTitle());
 		}
@@ -117,10 +117,11 @@ public class CultureDaoTest {
 	public void testGetRowCountBySer(){
 		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
 		CulturalDao clDao = (CulturalDao)context.getBean("culturalDao");
-		String keyword="青花瓷";
+		List<String> keywords = new ArrayList<String>();
+		keywords.add("青花瓷");
 		String time = "";
 		String color = null;
-		int count = clDao.getRowCountBySer(keyword, time, color);
+		int count = clDao.getRowCountBySer(keywords, time, color);
 		System.out.println(count);
 	}
 	
