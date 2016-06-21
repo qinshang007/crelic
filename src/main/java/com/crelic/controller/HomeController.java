@@ -140,7 +140,6 @@ public class HomeController extends BaseController{
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response,UserBean ub) throws Exception{
 		try{
 			String keyword = request.getParameter("keyWord");
-			System.out.println("关键字：----》"+keyword);
 			String keywords[] = keyword.split(";");
 			List<String> keywordList = Arrays.asList(keywords);
 			int pageNow = Integer.valueOf(request.getParameter("pageNow"));

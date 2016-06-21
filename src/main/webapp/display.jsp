@@ -158,8 +158,8 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 				alert("请登录后再操作！");
 				return;
 			}
-			var culId = '${cultural.identifier}';
-			var cultype = '${cultural.classification}'
+			var culId = '${cb.identifier}';
+			var cultype = '${cb.classification}'
 			var by = $("#byinput").val();
 			var uri = "/crelic/home/biaoyin.do";
 			var pars  = "?userName="+userName+"&culId="+culId+"&cultype="+cultype+"&by="+by;
