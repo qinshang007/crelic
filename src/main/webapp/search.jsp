@@ -298,7 +298,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
 						<div id="keywordPanel" class="svalue" >
 							<c:forEach var="keyword" items="${keywordList}">
 								<c:if test="${not empty keyword}">
-									<div color="#888" class="elem" id="k_${keyword}"><span>${keyword}</span></div>
+									<div color="#888" class="elem" id="k_${keyword}"><span>${keyword}</span><img alt="" src="/crelic/images/091.png" width="12px" height="12px"></div>
 								</c:if>
 							</c:forEach>
 						</div>
