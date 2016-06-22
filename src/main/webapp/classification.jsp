@@ -13,7 +13,7 @@ String culType = new String(request.getParameter("culType").getBytes("ISO-8859-1
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'classification.jsp' starting page</title>
+    <title>文物知识库分类检索</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">

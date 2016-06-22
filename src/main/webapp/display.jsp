@@ -11,6 +11,7 @@ CulturalBean cb = (CulturalBean)request.getAttribute("cb");
 <html>
   <head>
     <base href="<%=basePath%>">
+    <title>文物知识库详情页面</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">

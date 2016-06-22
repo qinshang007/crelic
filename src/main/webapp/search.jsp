@@ -12,7 +12,7 @@ String url = request.getScheme()+"://"+request.getServerName()+":"+request.getSe
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'classification.jsp' starting page</title>
+    <title>文物知识库检索</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
