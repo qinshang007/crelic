@@ -33,4 +33,12 @@ public interface UserDao {
 	/*根据用户姓名返回用户id*/
 	public String getIdByName(String userName);
 	
+	/*添加用户*/
+	public boolean addUser(UserBean ub);
+	
+	/*根据用户名称获取用户*/
+	public UserBean getUserByName(String userName);
+
+
+	
 }

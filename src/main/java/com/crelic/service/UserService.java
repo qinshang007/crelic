@@ -33,4 +33,12 @@ public interface UserService {
 	/*根据用户姓名返回用户id*/
 	public String getIdByName(String userName);
 	
+	/**
+	 * 添加用户
+	 * @param ub
+	 * @return
+	 */
+	public boolean addUser(UserBean ub);
+
+	
 }

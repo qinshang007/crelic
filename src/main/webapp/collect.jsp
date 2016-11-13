@@ -258,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="title">
 			<c:choose>
 				<c:when test="${not empty sessionScope.username}">
-					<span>欢迎您,${sessionScope.username}!|<a href="/crelic/home/collections.do?pageNow=1">收藏夹</a>|<a href="/crelic/home/index.do">首页</a></span>
+					<span>欢迎您,${sessionScope.username}!|<a href="/crelic/home/collections.do?pageNow=1">收藏夹</a>|<a href="/crelic/home/index.do">首页</a>|<a href="/crelic/home/logout.do">退出</a></span>
 				</c:when>
 				<c:otherwise>
 					<span><a href="/crelic/login.jsp">登录</a>|<a href="/crelic/home/index.do">首页</a></span>

@@ -54,4 +54,18 @@ public class UserServiceImpl extends BaseService implements UserService{
 		return getUserDao().getIdByName(userName);
 	}
 
+	public boolean addUser(UserBean ub) {
+		// TODO Auto-generated method stub
+		String userName = ub.getUserName();
+		UserBean user = getUserDao().getUserByName(userName);
+		if(user != null)
+			return false;
+		else{
+			ub.setLevel(0);
+			ub.setEmail("");
+			ub.setPhone("");
+			return getUserDao().addUser(ub);
+		}
+	}
+
 }

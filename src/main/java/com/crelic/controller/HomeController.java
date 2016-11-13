@@ -23,6 +23,7 @@ import com.crelic.model.UploadFile;
 import com.crelic.model.UserBean;
 import com.crelic.service.CulturalService;
 import com.crelic.service.UserService;
+import com.crelic.util.CodeGenerator;
 
 @Controller
 @RequestMapping(value="/home")
@@ -67,32 +68,110 @@ public class HomeController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
+//	@RequestMapping("login.do")
+//	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,UserBean ub) throws Exception{
+//		try{
+//			if(userService.checkUser(ub))
+//			{
+//				HttpSession hs = request.getSession();
+//				hs.setAttribute("username", ub.getUserName());
+//				String userid = userService.getIdByName(ub.getUserName());
+//				hs.setAttribute("userid", userid);
+//				List<CulturalBean> hsList = culService.getHotSearch();	//获取热门检索的五件文物
+//				List<CulturalBean> lcList = culService.getLatestCul();	//获取最近更新的五件文物
+//				Map map = new HashMap();
+//				map.put("hsList", hsList);
+//				map.put("lcList", lcList);
+//				return new ModelAndView("index").addAllObjects(map);
+//			}
+//			else{
+//				return new ModelAndView("login");
+//			}
+//		}catch (RuntimeException e) {
+//			logger.error("登录出错：" +  ",errMsg=" + e.getMessage());
+//			outputJsonResponse(response, false, e.getMessage());
+//			return null;
+//		}
+//	}
+
 	@RequestMapping("login.do")
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,UserBean ub) throws Exception{
+	public void login(HttpServletRequest request, HttpServletResponse response,UserBean user) throws Exception{
 		try{
-			if(userService.checkUser(ub))
-			{
-				HttpSession hs = request.getSession();
-				hs.setAttribute("username", ub.getUserName());
-				String userid = userService.getIdByName(ub.getUserName());
-				hs.setAttribute("userid", userid);
-				List<CulturalBean> hsList = culService.getHotSearch();	//获取热门检索的五件文物
-				List<CulturalBean> lcList = culService.getLatestCul();	//获取最近更新的五件文物
-				Map map = new HashMap();
-				map.put("hsList", hsList);
-				map.put("lcList", lcList);
-				return new ModelAndView("index").addAllObjects(map);
+			HttpSession hs = request.getSession();
+			String message = "";
+			if(user!=null && hs.getAttribute("userName")!=null){
+				if(hs.getAttribute("userName").equals(user.getUserName()))
+					outputJsonResponse(response, true, message);
 			}
 			else{
-				return new ModelAndView("login");
+				boolean flag = userService.checkUser(user);
+				if(flag){
+					String userid = userService.getIdByName(user.getUserName());
+					hs.setAttribute("username",user.getUserName());
+					hs.setAttribute("userid", userid);
+					outputJsonResponse(response, true, "登录成功！");
+				}else{
+					outputJsonResponse(response, false, "用户名或密码错误！");
+				}
 			}
 		}catch (RuntimeException e) {
-			logger.error("登录出错：" +  ",errMsg=" + e.getMessage());
+			logger.error(e.getMessage());
+			outputJsonResponse(response, false, e.getMessage());
+		}
+
+	}
+
+	/**
+	 * 退出接口
+	 * @param request
+	 * @param response
+	 * @param ub
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("logout.do")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		try{
+			HttpSession hs = request.getSession();
+			hs.invalidate();
+			List<CulturalBean> hsList = culService.getHotSearch();	//获取热门检索的五件文物
+			List<CulturalBean> lcList = culService.getLatestCul();	//获取最近更新的五件文物
+			Map map = new HashMap();
+			map.put("hsList", hsList);
+			map.put("lcList", lcList);
+			return new ModelAndView("index").addAllObjects(map);
+		}catch (RuntimeException e) {
+			logger.error("退出出错：" +  ",errMsg=" + e.getMessage());
 			outputJsonResponse(response, false, e.getMessage());
 			return null;
 		}
 	}
-	
+
+	/**
+	 * 添加用户
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/addUser.do")
+	public void addUser(HttpServletRequest request, HttpServletResponse response,UserBean user) throws Exception {
+		try{
+			user.setUserId(CodeGenerator.createUUID());
+			boolean result = userService.addUser(user);
+			if(result){
+				HttpSession hs = request.getSession();
+				hs.setAttribute("username", user.getUserName());
+				String userid = userService.getIdByName(user.getUserName());
+				hs.setAttribute("userid", userid);
+				outputJsonResponse(response, true, "添加成功！");
+			}
+			else
+				outputJsonResponse(response, false, "用户名已存在，注册失败！");
+		}catch(RuntimeException e) {
+			outputJsonResponse(response, false,e.getMessage());
+			logger.error("添加用户出错："+e.getMessage());
+		}
+	}
 	
 	/**
 	 * 分类查找入口

@@ -10,6 +10,14 @@
 		resultClass="Integer">
 		select count(*) from user where userName = #userName# and password = #password# limit 1 
 	</select>
+	
+	<!-- 添加用户 -->
+	<insert id="addUser" parameterClass="user">
+		insert into user (userId,userName,password,level,email,phone) values(#userId#,#userName#,#password#,#level#,#email#,#phone#)
+		<selectKey resultClass="int" keyProperty="level">  
+  		 	 SELECT @@IDENTITY as id  
+ 		 </selectKey> 
+	</insert>
 
 	<!-- 收藏文物 -->
 	<insert id="collectCul" parameterClass="collect">
@@ -57,6 +65,12 @@
 	<select id="getIdByName" parameterClass="String"
 		resultClass="String">
 		select userId from user where userName = #userName#
+	</select>
+	
+	<!-- 根据用户姓名获取用户-->
+	<select id="getUserByName" parameterClass="String"
+		resultClass="user">
+		select * from user where userName=#userName# 
 	</select>
 	
 
